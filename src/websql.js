@@ -7,7 +7,7 @@
 (function(w, undefined) {
 
     var alert = window.alert;
-    var console = window.console;
+    var console = window.console || function() {};
     var toString = Object.prototype.toString;
     // 工具方法
     var _ = {
@@ -30,10 +30,10 @@
         var len = arguments.length;
         try {
             if (!window.openDatabase) {
-                alert('本地数据库不支持');
+                alert('web database doesn\'t support');
             } else {
                 if (len < 4) {
-                    alert('参数至少要四个');
+                    alert('Arguments for at least four');
                     return;
                 }
                 //数据库单例模式
@@ -45,9 +45,9 @@
             }
         } catch (e) {
             if (e === 2) {
-                console.log('无效数据库版本');
+                console.log('Invalid database version');
             } else {
-                console.log('未知错误 ' + e + '。');
+                console.log('Unknown error %s。', e);
             }
         }
     }
@@ -67,7 +67,7 @@
 
             errorFn = errorFn || function (transaction, error) {
                 //设置sql操作失败处理函数
-                console.log('Error was ' + error.message + ' errorCode is ' + error.code);
+                console.log('Error was %s errorCode is %s', error.message, error.code);
             };
 
             this.db.transaction(function (tx) {
